@@ -1,6 +1,7 @@
 ### Part 2
 #### Deploying multiple app versions
 - `cd` to the `part_2/app/` directory.
+- Configure `main.py` the same way as in part 1 of this lab, or just reuse your app from that and modify main.py manually to specify versions rather than commenting and uncommenting lines.
 - `gcloud app deploy version=v1`
 - After that deploys, edit `main.py` to comment out the two lines mentioning version 1 and uncomment the two lines mentioning version 2.
 - `gcloud app deploy version=v2`
