@@ -1,2 +1,5 @@
 flask~=3.0.3
 Flask-Mail~=0.10.0
+cloud-sql-python-connector~=1.13.0
+PyMySQL~=1.1.1
+SQLAlchemy~=2.0.36

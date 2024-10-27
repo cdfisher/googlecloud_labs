@@ -8,18 +8,16 @@ from google.cloud.sql.connector import Connector  # pip install "cloud-sql-pytho
 # Reference: https://pypi.org/project/cloud-sql-python-connector/
 
 # initialize Connector object
-connector = Connector()
+connector = Connector(enable_iam_auth=True)
 
-
-# TODO set this up
-# function to return the database connection
 def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
-        "project:region:instance",
+        "exam-project-439721:northamerica-northeast1:exam-demo", # This is "Connection name" under "Connect to this instance" on the Cloud SQL Instance details page.
         "pymysql",
-        user="my-user",
-        password="my-password",
-        db="my-db-name"
+        #user='cdfisher96',             # If running locally, use your Google account as the user
+        user='exam-project-439721',     # If running from App Engine, use the App Engine service account as the user
+        db="students",
+        enable_iam_auth=True
     )
     return conn
 
@@ -32,9 +30,10 @@ pool = sqlalchemy.create_engine(
 
 
 def insert(user_id, user_name):
+    print(f"Insert called with id {user_id} and name {user_name}")
     # insert statement
     insert_stmt = sqlalchemy.text(
-        "INSERT INTO my_table (user_id, user_name) VALUES (:user_id, :user_name)",
+        "INSERT INTO studentRecords (studentID, studentName) VALUES (:user_id, :user_name)",
     )
 
     with pool.connect() as db_conn:
@@ -50,22 +49,16 @@ user_id = ''
 user_name = ''
 
 
-# Connections using Automatic IAM database authentication are supported when using Postgres or MySQL drivers. First,
-# make sure to configure your Cloud SQL Instance to allow IAM authentication and add an IAM database user.
-#
-# Now, you can connect using user or service account credentials instead of a password. In the call to connect, set the
-# enable_iam_auth keyword argument to true and the user argument to the appropriately formatted IAM principal.
-#
-#     MySQL: For an IAM user account, this is the user's email address, without the @ or domain name. For example, for
-#     test-user@gmail.com, set the user argument to test-user. For a service account, this is the service account's
-#     email address without the @project-id.iam.gserviceaccount.com suffix.
-
-
 @app.route("/", methods=('GET', 'POST'))
 def index():
     if request.method == 'POST':
-        insert(request.form['user_id'], request.form['user_name'])
-        return redirect(url_for('index'))
+        print("0")
+        user_id = request.form['user_id']
+        user_name = request.form['user_name']
+        if not (user_id == '' and user_name == ''):
+            print("1")
+            insert(user_id, user_name)
+            return redirect(url_for('index'))
 
     return render_template("index.html")
 
