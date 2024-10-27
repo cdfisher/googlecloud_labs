@@ -14,7 +14,7 @@ def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
         "exam-project-439721:northamerica-northeast1:exam-demo", # This is "Connection name" under "Connect to this instance" on the Cloud SQL Instance details page.
         "pymysql",
-        #user='cdfisher96',             # If running locally, use your Google account as the user
+        # If running locally, use your Google account as the user
         user='exam-project-439721',     # If running from App Engine, use the App Engine service account as the user
         db="students",
         enable_iam_auth=True
