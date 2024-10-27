@@ -8,7 +8,7 @@ This covers the steps for setting up a project to use both App Engine and CloudS
 - Do this same process again with the command `gcloud auth application-default login`
 - `gcloud config set project <PROJECT_ID>`, where `PROJECT_ID` is the ID listed on the cloud console "Dashboard" page under "Project Info".
 - Go to "Project Settings" -> "IAM" and find the principal with the name "App Engine default service account". **You may have to attempt to use `gcloud app deploy` before this service account appears in the list.** Click the pencil icon "Edit principal". 
-- Search and add the following permissions: "Artifact Registry Create-on-Push Writer", "Storage Admin", and "Logs Writer".
+- Search and add the following permissions: "Artifact Registry Create-on-Push Writer", "Storage Admin", "Logs Writer", "Cloud SQL Instance User", and "Cloud SQL Admin".
 
 ### Deploying an app to App Engine
 - `cd` to the directory which has your app and `app.yaml`.
